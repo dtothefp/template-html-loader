@@ -7,7 +7,10 @@ module.exports = function(content) {
   this.cacheable && this.cacheable();
 
   var callback = this.async();
-  var opt = utils.parseQuery(this.query);
+  var opt = assign(
+    this.options.template || {},
+    utils.parseQuery(this.query)
+  );
 
   function exportContent(content) {
     if (opt.raw) {
@@ -24,10 +27,6 @@ module.exports = function(content) {
 
   if(!cons[opt.engine]) {
     throw new Error("Engine '"+ opt.engine +"' isn't available in Consolidate.js");
-  }
-
-  if(this.options.template) {
-    assign(opt, this.options.template);
   }
 
   // for relative includes
