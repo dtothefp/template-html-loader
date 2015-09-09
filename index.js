@@ -1,7 +1,7 @@
 var cons = require('consolidate');
 var utils = require('loader-utils');
 var extname = require('path').extname;
-
+var assign = require('object-assign');
 
 module.exports = function(content) {
   this.cacheable && this.cacheable();
@@ -24,6 +24,10 @@ module.exports = function(content) {
 
   if(!cons[opt.engine]) {
     throw new Error("Engine '"+ opt.engine +"' isn't available in Consolidate.js");
+  }
+
+  if(this.options.template) {
+    assign(opt, this.options.template);
   }
 
   // for relative includes
